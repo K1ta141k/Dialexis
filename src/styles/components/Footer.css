@@ -1,0 +1,12 @@
+/* Footer Row */
+.footer-row {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary-bg-color);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.footer-content {
+  text-align: center;
+  color: var(--secondary-text-color);
+} 

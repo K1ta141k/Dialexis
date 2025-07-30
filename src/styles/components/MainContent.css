@@ -1,0 +1,13 @@
+/* Main Content Styles */
+.main-content-row {
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.content-container {
+  height: 100%;
+  background-color: var(--primary-bg-color);
+  backdrop-filter: var(--backdrop-blur);
+  border-radius: 0.5rem;
+  padding: 2rem;
+} 

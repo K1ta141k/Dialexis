@@ -1,0 +1,26 @@
+/* Results Row Styles */
+.results-row {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.results-row-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.results-row-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.results-row-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--primary-text-color);
+} 

@@ -1,0 +1,28 @@
+/* Timer Styles */
+.timer-row {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.timer-controls-left {
+  display: flex;
+  align-items: baseline;
+}
+
+.timer-display-right {
+  display: flex;
+  align-items: baseline;
+}
+
+.timer-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  margin-right: 0.5rem;
+  line-height: 1;
+} 

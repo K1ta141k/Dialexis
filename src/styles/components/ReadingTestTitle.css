@@ -1,0 +1,13 @@
+/* Reading Test Title Styles */
+.reading-test-row {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.reading-test-title {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-text-color);
+  padding: 1rem 0 1rem 1.5rem;
+} 

@@ -1,0 +1,17 @@
+/* View Results Button Styles */
+.view-results-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--border-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-results-btn:hover {
+  background-color: var(--border-color);
+  color: white;
+} 

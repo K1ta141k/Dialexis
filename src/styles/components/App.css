@@ -1,0 +1,22 @@
+:root {
+  --primary-bg-color: #f5f1e8;
+  --primary-text-color: #1f2937;
+  --secondary-text-color: #4b5563;
+  --accent-color: #4A90E2;
+  --border-color: #1f2937;
+  --shadow-light: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --backdrop-blur: blur(4px);
+}
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background-color: var(--primary-bg-color);
+}
+
+/* Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+} 

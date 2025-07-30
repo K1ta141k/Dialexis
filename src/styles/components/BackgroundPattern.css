@@ -1,0 +1,11 @@
+/* Background Pattern Styles */
+.background-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+}
+
+.pattern-overlay {
+  position: absolute;
+  inset: 0;
+} 

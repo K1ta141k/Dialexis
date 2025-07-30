@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Spezia Serif font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+/* Alternative: If you have local Spezia Serif files, use this instead:
+@font-face {
+  font-family: 'Spezia Serif';
+  src: url('./assets/fonts/SpeziaSerif-Regular.woff2') format('woff2'),
+       url('./assets/fonts/SpeziaSerif-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spezia Serif';
+  src: url('./assets/fonts/SpeziaSerif-Medium.woff2') format('woff2'),
+       url('./assets/fonts/SpeziaSerif-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spezia Serif';
+  src: url('./assets/fonts/SpeziaSerif-Bold.woff2') format('woff2'),
+       url('./assets/fonts/SpeziaSerif-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+body {
+  margin: 0;
+  font-family: 'Playfair Display', 'Spezia Serif', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} 
