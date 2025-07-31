@@ -1,0 +1,124 @@
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 16px; /* Space between restart button and slider */
+  position: relative;
+  padding: 8px;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.speed-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 4px 0;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wpm-value {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.speed-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  background: #e5e7eb;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #1f2937;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.speed-slider::-webkit-slider-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 2px;
+}
+
+/* Firefox */
+.speed-slider::-moz-range-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 2px;
+  border: none;
+}
+
+.speed-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #1f2937;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus states for accessibility */
+.speed-slider:focus {
+  outline: none;
+}
+
+.speed-slider:focus::-webkit-slider-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+.speed-slider:focus::-moz-range-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Remove all focus outlines */
+.speed-slider:focus-visible {
+  outline: none;
+}
+
+.speed-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+.speed-slider:focus-visible::-moz-range-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Hover effects */
+.speed-slider:hover::-webkit-slider-thumb {
+  background: #374151;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+.speed-slider:hover::-moz-range-thumb {
+  background: #374151;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+} 

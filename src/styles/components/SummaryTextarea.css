@@ -1,0 +1,27 @@
+.summary-textarea {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  padding-right: 3rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: none;
+  background: white;
+  color: #374151;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.summary-textarea:focus {
+  outline: none;
+  border-color: #6b7280;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+}
+
+.summary-textarea::placeholder {
+  color: #9ca3af;
+} 

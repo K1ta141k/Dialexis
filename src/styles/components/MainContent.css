@@ -1,7 +1,7 @@
 /* Main Content Styles */
 .main-content-row {
   width: 100%;
-  padding: 1.5rem;
+  padding: 1.5rem 3rem;
 }
 
 .content-container {
@@ -9,5 +9,5 @@
   background-color: var(--primary-bg-color);
   backdrop-filter: var(--backdrop-blur);
   border-radius: 0.5rem;
-  padding: 2rem;
+  padding: 0;
 } 

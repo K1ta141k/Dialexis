@@ -2,27 +2,31 @@
 .timer-row {
   width: 100%;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+  min-height: 56px;
 }
 
 .timer-controls-left {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 
 .timer-display-right {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  line-height: 1;
+  gap: 0.5rem;
 }
 
 .timer-label {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--primary-text-color);
-  margin-right: 0.5rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
 } 

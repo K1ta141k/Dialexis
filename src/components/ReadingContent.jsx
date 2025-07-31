@@ -1,15 +1,31 @@
 
 import Caret from './Caret';
+import ReadingOverlay from './ReadingOverlay';
+import SummaryInputOverlay from './SummaryInputOverlay';
 import { APP_CONFIG } from '../constants';
 import '../styles/components/ReadingContent.css';
 
-const ReadingContent = ({ text, isPlaying, caretSpeed = APP_CONFIG.DEFAULT_CARET_SPEED, className = '' }) => {
+const ReadingContent = ({
+  text,
+  isPlaying,
+  hasStartedReading,
+  caretSpeed = APP_CONFIG.DEFAULT_CARET_SPEED,
+  onSummarySubmit,
+  showCaret,
+  className = '',
+}) => {
   const displayText = text || APP_CONFIG.DEFAULT_TEXT;
+
+  const handleSummarySubmit = (summary) => {
+    if (onSummarySubmit) {
+      onSummarySubmit(summary);
+    }
+  };
 
   return (
     <div className={`reading-content-row ${className}`}>
       <div className="reading-text">
-        {isPlaying ? (
+        {isPlaying && showCaret ? (
           <Caret
             isPlaying={isPlaying}
             text={displayText}
@@ -21,6 +37,11 @@ const ReadingContent = ({ text, isPlaying, caretSpeed = APP_CONFIG.DEFAULT_CARET
         ) : (
           displayText
         )}
+        <ReadingOverlay isPlaying={hasStartedReading} />
+        <SummaryInputOverlay
+          isVisible={!isPlaying && hasStartedReading}
+          onSubmit={handleSummarySubmit}
+        />
       </div>
     </div>
   );

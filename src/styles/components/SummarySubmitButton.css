@@ -1,0 +1,29 @@
+.summary-submit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 24px;
+  height: 24px;
+}
+
+.summary-submit-btn svg {
+  width: 24px;
+  height: 24px;
+  color: #374151;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.summary-submit-btn:hover {
+  background-color: #374151;
+}
+
+.summary-submit-btn:hover svg {
+  color: white;
+} 

@@ -1,8 +1,10 @@
 /* Timer Display Styles */
 .timer-display {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--primary-text-color);
-  font-family: 'Courier New', monospace;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  transform: translateY(1px);
 } 

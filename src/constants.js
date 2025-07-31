@@ -15,7 +15,34 @@ export const TIMER_CONFIG = {
 // Component Names
 export const COMPONENT_NAMES = {
   APP: 'Dialexis App',
-  LOGO: 'Δialexis',
+  LOGO: 'Dialexis',
   READING_TEST_TITLE: 'Reading Speed Test',
   VIEW_RESULTS: 'View Results',
+  TIME_LABEL: 'Time: ',
+  READING_SPEED_LABEL: 'Reading Speed',
+  WPM_SUFFIX: ' WPM',
+  FOOTER_TEXT: '© 2024 Dialexis. Reading speed test application.',
+  SPEED_SLIDER_ARIA_LABEL: 'Adjust reading speed',
+  READING_OVERLAY_MESSAGE: 'Click play to start reading',
+  SUMMARY_PLACEHOLDER: 'Produce a detailed summary of the excerpt you read...',
+  SUBMIT_BUTTON: 'Submit',
+};
+
+// Slider Constants
+export const SLIDER_CONFIG = {
+  DEFAULT_VALUE: 200,
+  MIN_VALUE: 50,
+  MAX_VALUE: 500,
+  STEP_VALUE: 10,
+  AVG_CHAR_WIDTH: 9, // pixels per character
+  AVG_WORD_LENGTH: 5, // characters per word
+  SECONDS_PER_MINUTE: 60,
+};
+
+// Caret Constants
+export const CARET_CONFIG = {
+  DEFAULT_SPEED: 120, // pixels per second
+  DEFAULT_COLOR: '#1f2937',
+  DEFAULT_WIDTH: 2,
+  DEFAULT_LINE_HEIGHT_MULTIPLIER: 1.6,
 };

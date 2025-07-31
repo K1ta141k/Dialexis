@@ -1,10 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
-import { TIMER_CONFIG } from '../constants';
+import { TIMER_CONFIG, SLIDER_CONFIG, COMPONENT_NAMES } from '../constants';
 import '../styles/components/Timer.css';
 
-const Timer = ({ isPlaying, onPlayPauseClick, onRestartClick, className = '' }) => {
+const Timer = ({
+  isPlaying,
+  onPlayPauseClick,
+  onRestartClick,
+  onSpeedChange,
+  speed = SLIDER_CONFIG.DEFAULT_VALUE,
+  showCaret,
+  onCaretToggle,
+  className = '',
+}) => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   // Timer effect
@@ -28,16 +37,16 @@ const Timer = ({ isPlaying, onPlayPauseClick, onRestartClick, className = '' }) 
   }, [isPlaying]);
 
   // Format time as MM:SS
-  const formatTime = (seconds) => {
+  const formatTime = useCallback((seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  }, []);
 
-  const handleRestartClick = () => {
+  const handleRestartClick = useCallback(() => {
     setElapsedTime(0);
     onRestartClick();
-  };
+  }, [onRestartClick]);
 
   return (
     <div className={`timer-row ${className}`}>
@@ -47,12 +56,16 @@ const Timer = ({ isPlaying, onPlayPauseClick, onRestartClick, className = '' }) 
           isPlaying={isPlaying}
           onPlayPauseClick={onPlayPauseClick}
           onRestartClick={handleRestartClick}
+          onSpeedChange={onSpeedChange}
+          speed={speed}
+          showCaret={showCaret}
+          onCaretToggle={onCaretToggle}
         />
       </div>
 
       {/* Timer Display on the right */}
       <div className="timer-display-right">
-        <div className="timer-label">Time: </div>
+        <div className="timer-label">{COMPONENT_NAMES.TIME_LABEL}</div>
         <TimerDisplay time={formatTime(elapsedTime)} />
       </div>
     </div>
