@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Timer from './Timer';
 import ReadingTestTitle from './ReadingTestTitle';
 import ReadingContent from './ReadingContent';
@@ -10,21 +10,21 @@ const ReadingSpeedTest = ({ isPlaying, onPlayPauseClick, onRestartClick, onViewR
     <div className={`reading-speed-test ${className}`}>
       {/* Row 1: Reading Speed Test Title */}
       <ReadingTestTitle />
-      
+
       {/* Row 2: Timer */}
-      <Timer 
-        isPlaying={isPlaying} 
+      <Timer
+        isPlaying={isPlaying}
         onPlayPauseClick={onPlayPauseClick}
         onRestartClick={onRestartClick}
       />
-      
+
       {/* Row 3: Reading Content */}
       <ReadingContent isPlaying={isPlaying} caretSpeed={caretSpeed} />
-      
+
       {/* Row 4: Results Row */}
       <ResultsRow onViewResults={onViewResults} />
     </div>
   );
 };
 
-export default ReadingSpeedTest; 
+export default ReadingSpeedTest;

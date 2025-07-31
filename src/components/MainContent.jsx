@@ -1,4 +1,4 @@
-import React from 'react';
+
 import '../styles/components/MainContent.css';
 
 const MainContent = ({ children, className = '' }) => {
@@ -11,4 +11,4 @@ const MainContent = ({ children, className = '' }) => {
   );
 };
 
-export default MainContent; 
+export default MainContent;

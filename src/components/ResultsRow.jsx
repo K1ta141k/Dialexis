@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ViewResultsButton from './ViewResultsButton';
 import '../styles/components/ResultsRow.css';
 
@@ -14,4 +14,4 @@ const ResultsRow = ({ onViewResults, className = '' }) => {
   );
 };
 
-export default ResultsRow; 
+export default ResultsRow;

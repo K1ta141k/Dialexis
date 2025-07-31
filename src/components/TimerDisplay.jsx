@@ -1,4 +1,4 @@
-import React from 'react';
+
 import '../styles/components/TimerDisplay.css';
 
 const TimerDisplay = ({ time = '00:00', className = '' }) => {
@@ -9,4 +9,4 @@ const TimerDisplay = ({ time = '00:00', className = '' }) => {
   );
 };
 
-export default TimerDisplay; 
+export default TimerDisplay;

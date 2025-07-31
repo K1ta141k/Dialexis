@@ -59,6 +59,7 @@ dialexis/
 - **CSS Custom Properties**: Consistent theming with CSS variables
 - **Component Modularity**: Each component has a single responsibility
 - **Clean Imports**: Organized import statements
+- **ESLint Configuration**: Comprehensive linting rules for code quality
 
 ### Functionality
 - **Working Timer**: Actual timer functionality with play/pause/restart
@@ -71,6 +72,7 @@ dialexis/
 - **Consistent Naming**: Standardized class and variable names
 - **Clear Structure**: Logical file organization
 - **Documentation**: Updated README with current structure
+- **Code Quality**: ESLint enforces consistent code style and best practices
 
 ## Getting Started
 
@@ -99,6 +101,9 @@ dialexis/
 - `npm run build` - Builds the app for production
 - `npm test` - Launches the test runner
 - `npm run eject` - Ejects from Create React App (one-way operation)
+- `npm run lint` - Check for linting issues
+- `npm run lint:fix` - Automatically fix linting issues
+- `npm run lint:check` - Check for linting issues and fail on warnings
 
 ## Tailwind CSS
 

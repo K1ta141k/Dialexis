@@ -1,4 +1,4 @@
-import React from 'react';
+
 import '../styles/components/ContentWrapper.css';
 
 const ContentWrapper = ({ children, className = '' }) => {
@@ -9,4 +9,4 @@ const ContentWrapper = ({ children, className = '' }) => {
   );
 };
 
-export default ContentWrapper; 
+export default ContentWrapper;

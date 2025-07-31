@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
 import { TIMER_CONFIG } from '../constants';
@@ -43,13 +43,13 @@ const Timer = ({ isPlaying, onPlayPauseClick, onRestartClick, className = '' }) 
     <div className={`timer-row ${className}`}>
       {/* Timer Controls on the left */}
       <div className="timer-controls-left">
-        <TimerControls 
-          isPlaying={isPlaying} 
+        <TimerControls
+          isPlaying={isPlaying}
           onPlayPauseClick={onPlayPauseClick}
           onRestartClick={handleRestartClick}
         />
       </div>
-      
+
       {/* Timer Display on the right */}
       <div className="timer-display-right">
         <div className="timer-label">Time: </div>
@@ -59,4 +59,4 @@ const Timer = ({ isPlaying, onPlayPauseClick, onRestartClick, className = '' }) 
   );
 };
 
-export default Timer; 
+export default Timer;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Background from './components/Background';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -17,12 +17,10 @@ function App() {
   const handleRestartClick = () => {
     setIsPlaying(false);
     // Add any additional restart logic here
-    console.log('Restart clicked');
   };
 
   const handleViewResults = () => {
     // Handle view results functionality
-    console.log('View Results clicked');
   };
 
   return (
@@ -30,28 +28,28 @@ function App() {
       <div className="App">
         {/* Grid Container */}
         <div className="grid-container">
-          
+
           {/* Row 1: Header */}
           <Header />
-          
+
           {/* Row 2: Main Content */}
           <MainContent>
-            <ReadingSpeedTest 
-              isPlaying={isPlaying} 
+            <ReadingSpeedTest
+              isPlaying={isPlaying}
               onPlayPauseClick={handlePlayPauseClick}
               onRestartClick={handleRestartClick}
               onViewResults={handleViewResults}
               caretSpeed={APP_CONFIG.DEFAULT_CARET_SPEED}
             />
           </MainContent>
-          
+
           {/* Row 3: Footer */}
           <Footer />
-          
+
         </div>
       </div>
     </Background>
   );
 }
 
-export default App; 
+export default App;

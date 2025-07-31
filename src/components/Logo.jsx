@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { COMPONENT_NAMES } from '../constants';
 import '../styles/components/Logo.css';
 
@@ -10,4 +10,4 @@ const Logo = ({ className = '' }) => {
   );
 };
 
-export default Logo; 
+export default Logo;

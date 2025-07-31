@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { COMPONENT_NAMES } from '../constants';
 import '../styles/components/ViewResultsButton.css';
 
@@ -10,4 +10,4 @@ const ViewResultsButton = ({ onClick, className = '', children = COMPONENT_NAMES
   );
 };
 
-export default ViewResultsButton; 
+export default ViewResultsButton;

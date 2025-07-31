@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { COMPONENT_NAMES } from '../constants';
 import '../styles/components/ReadingTestTitle.css';
 
@@ -12,4 +12,4 @@ const ReadingTestTitle = ({ className = '' }) => {
   );
 };
 
-export default ReadingTestTitle; 
+export default ReadingTestTitle;

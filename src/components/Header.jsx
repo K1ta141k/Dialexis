@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Logo from './Logo';
 import '../styles/components/Header.css';
 
@@ -10,4 +10,4 @@ const Header = ({ className = '' }) => {
   );
 };
 
-export default Header; 
+export default Header;

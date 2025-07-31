@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import '../styles/components/Caret.css';
 
 const Caret = ({
@@ -8,7 +8,7 @@ const Caret = ({
   caretColor = '#1f2937',
   caretWidth = 2,
   caretHeight = null,             // will use line height by default
-  className = ''
+  className = '',
 }) => {
   const textRef = useRef(null);
   const [lines, setLines] = useState([]);
@@ -36,7 +36,7 @@ const Caret = ({
         setCaret({
           x: lines[0]?.left || 0,
           y: lines[0]?.top || 0,
-          lineIdx: 0
+          lineIdx: 0,
         });
       setActive(false);
     } else {
@@ -61,10 +61,9 @@ const Caret = ({
         if (!line) return prev;
 
         const maxX = line.right;
-        const minX = line.left;
 
         // How far to move in this frame
-        let nextX = x + speed * dt;
+        const nextX = x + speed * dt;
 
         // If the caret is still in this line, just move
         if (nextX < maxX) {
@@ -77,7 +76,7 @@ const Caret = ({
           return {
             x: nextLine.left,
             y: nextLine.top,
-            lineIdx: lineIdx + 1
+            lineIdx: lineIdx + 1,
           };
         }
 
@@ -86,7 +85,7 @@ const Caret = ({
         return {
           x: maxX,
           y,
-          lineIdx
+          lineIdx,
         };
       });
 
@@ -100,7 +99,7 @@ const Caret = ({
   }, [active, lines, speed]);
 
   // Compute container offsets for absolute caret positioning
-  let containerRect = lines[0] || { left: 0, top: 0 };
+  const containerRect = lines[0] || { left: 0, top: 0 };
 
   // Caret visual settings
   const lineHeight = lines[caret.lineIdx]?.height || 24;
@@ -120,10 +119,10 @@ const Caret = ({
           className={`caret-bar ${className}`}
           style={{
             position: 'absolute',
-            left: (caret.x - containerRect.left) + 'px',
-            top: (caret.y - containerRect.top) + 'px',
-            height: visualCaretHeight + 'px',
-            width: caretWidth + 'px',
+            left: `${caret.x - containerRect.left  }px`,
+            top: `${caret.y - containerRect.top  }px`,
+            height: `${visualCaretHeight  }px`,
+            width: `${caretWidth  }px`,
             background: caretColor,
             zIndex: 10,
             transition: 'none', // Caret moves smoothly by JS, not CSS transitions
