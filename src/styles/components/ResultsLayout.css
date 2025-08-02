@@ -1,0 +1,23 @@
+.results-layout {
+  width: 100%;
+  height: 100%;
+  padding: 2.5rem 3rem 1.5rem 3rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  height: 100%;
+  max-width: 100%;
+  align-items: start;
+}
+
+/* Responsive layout for screens less than 850px */
+@media (max-width: 849px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 3rem;
+  }
+} 

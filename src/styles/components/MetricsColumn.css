@@ -1,0 +1,146 @@
+.metrics-column {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0;
+  height: var(--text-column-height, 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 15;
+}
+
+.metrics-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0;
+}
+
+.metric-row {
+  height: calc(100% / 3);
+  background-color: transparent;
+  border-radius: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-row.middle-row {
+  padding: 0 1rem;
+}
+
+.metric-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgba(128, 128, 128, 0.8);
+  margin: 0 1rem 0.5rem 1rem;
+  text-align: center;
+}
+
+.spot-on-title {
+  color: rgba(34, 197, 94, 0.8);
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.not-found-title {
+  color: rgba(249, 115, 22, 0.8);
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.not-quite-title {
+  color: rgba(239, 68, 68, 0.8);
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pulsating-circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.8);
+  animation: pulse 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.pulsating-circle.orange {
+  background: rgba(249, 115, 22, 0.8);
+  animation: pulseOrange 3s ease-in-out infinite;
+}
+
+.pulsating-circle.red {
+  background: rgba(239, 68, 68, 0.8);
+  animation: pulseRed 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(34, 197, 94, 0.8);
+  }
+  50% {
+    background-color: rgba(34, 197, 94, 0.3);
+  }
+  100% {
+    background-color: rgba(34, 197, 94, 0.8);
+  }
+}
+
+@keyframes pulseOrange {
+  0% {
+    background-color: rgba(249, 115, 22, 0.8);
+  }
+  50% {
+    background-color: rgba(249, 115, 22, 0.3);
+  }
+  100% {
+    background-color: rgba(249, 115, 22, 0.8);
+  }
+}
+
+@keyframes pulseRed {
+  0% {
+    background-color: rgba(239, 68, 68, 0.8);
+  }
+  50% {
+    background-color: rgba(239, 68, 68, 0.3);
+  }
+  100% {
+    background-color: rgba(239, 68, 68, 0.8);
+  }
+}
+
+.metric-content {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--primary-text-color);
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-height: 100%;
+  min-height: 0;
+  padding: 0 8px;
+} 

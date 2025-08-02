@@ -33,11 +33,11 @@ module.exports = {
     'react/jsx-no-undef': 'error',
     'react/no-array-index-key': 'warn',
     'react/no-unescaped-entities': 'warn',
-    
+
     // React Hooks rules
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    
+
     // General JavaScript rules
     'no-unused-vars': 'warn',
     'no-console': 'warn',
@@ -46,7 +46,7 @@ module.exports = {
     'no-var': 'error',
     'object-shorthand': 'error',
     'prefer-template': 'error',
-    
+
     // Code style
     'indent': ['error', 2],
     'quotes': ['error', 'single'],
@@ -54,7 +54,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'no-trailing-spaces': 'error',
     'eol-last': 'error',
-    
+
     // Accessibility
     'jsx-a11y/alt-text': 'error',
     'jsx-a11y/anchor-has-content': 'error',
@@ -77,4 +77,4 @@ module.exports = {
     '*.config.js',
     '*.config.mjs',
   ],
-}; 
+};

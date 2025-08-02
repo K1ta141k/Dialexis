@@ -1,7 +1,7 @@
 // Authentication Configuration
 export const AUTH_CONFIG = {
   // API Base URL
-  API_BASE_URL: 'http://localhost:8000',
+  API_BASE_URL: 'http://192.168.1.173:8000',
 
   // Token storage keys
   TOKEN_KEY: 'access_token',

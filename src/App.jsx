@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import MainContent from './components/MainContent';
 import ReadingSpeedTest from './components/ReadingSpeedTest';
+import ResultsLayout from './components/ResultsLayout';
 import { APP_CONFIG } from './constants';
 import './styles/components/App.css';
 
@@ -12,6 +13,8 @@ function App() {
   const [hasStartedReading, setHasStartedReading] = useState(false);
   const [caretSpeed, setCaretSpeed] = useState(APP_CONFIG.DEFAULT_CARET_SPEED);
   const [showCaret, setShowCaret] = useState(false);
+  const [summarySubmitted, setSummarySubmitted] = useState(false);
+  const [userSummary, setUserSummary] = useState('');
 
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
@@ -23,6 +26,8 @@ function App() {
   const handleRestartClick = () => {
     setIsPlaying(false);
     setHasStartedReading(false);
+    setSummarySubmitted(false);
+    setUserSummary('');
   };
 
   const handleViewResults = () => {
@@ -38,6 +43,9 @@ function App() {
   };
 
   const handleSummarySubmit = async (summary) => {
+    setUserSummary(summary);
+    setSummarySubmitted(true);
+
     try {
       const response = await fetch('http://localhost:8000/compare-texts', {
         method: 'POST',
@@ -86,22 +94,29 @@ function App() {
         <div className="grid-container">
 
           {/* Row 1: Header */}
-          <Header />
+          <Header onLogoClick={handleRestartClick} />
 
           {/* Row 2: Main Content */}
           <MainContent>
-            <ReadingSpeedTest
-              isPlaying={isPlaying}
-              hasStartedReading={hasStartedReading}
-              onPlayPauseClick={handlePlayPauseClick}
-              onRestartClick={handleRestartClick}
-              onViewResults={handleViewResults}
-              onSummarySubmit={handleSummarySubmit}
-              caretSpeed={caretSpeed}
-              onSpeedChange={handleSpeedChange}
-              showCaret={showCaret}
-              onCaretToggle={handleCaretToggle}
-            />
+            {summarySubmitted ? (
+              <ResultsLayout
+                originalText={APP_CONFIG.DEFAULT_TEXT}
+                userSummary={userSummary}
+              />
+            ) : (
+              <ReadingSpeedTest
+                isPlaying={isPlaying}
+                hasStartedReading={hasStartedReading}
+                onPlayPauseClick={handlePlayPauseClick}
+                onRestartClick={handleRestartClick}
+                onViewResults={handleViewResults}
+                onSummarySubmit={handleSummarySubmit}
+                caretSpeed={caretSpeed}
+                onSpeedChange={handleSpeedChange}
+                showCaret={showCaret}
+                onCaretToggle={handleCaretToggle}
+              />
+            )}
           </MainContent>
 
           {/* Row 3: Footer */}

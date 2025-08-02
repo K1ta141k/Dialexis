@@ -21,7 +21,7 @@ export const COMPONENT_NAMES = {
   TIME_LABEL: 'Time: ',
   READING_SPEED_LABEL: 'Reading Speed',
   WPM_SUFFIX: ' WPM',
-  FOOTER_TEXT: '© 2024 Dialexis. Reading speed test application.',
+  FOOTER_TEXT: '© 2025 Dialexis. Reading speed test application.',
   SPEED_SLIDER_ARIA_LABEL: 'Adjust reading speed',
   READING_OVERLAY_MESSAGE: 'Click play to start reading',
   SUMMARY_PLACEHOLDER: 'Produce a detailed summary of the excerpt you read...',
