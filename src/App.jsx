@@ -6,6 +6,7 @@ import MainContent from './components/MainContent';
 import ReadingSpeedTest from './components/ReadingSpeedTest';
 import ResultsLayout from './components/ResultsLayout';
 import { APP_CONFIG } from './constants';
+import authService from './services/authService';
 import './styles/components/App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   const [showCaret, setShowCaret] = useState(false);
   const [summarySubmitted, setSummarySubmitted] = useState(false);
   const [userSummary, setUserSummary] = useState('');
+  const [apiResponse, setApiResponse] = useState(null);
 
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
@@ -28,6 +30,7 @@ function App() {
     setHasStartedReading(false);
     setSummarySubmitted(false);
     setUserSummary('');
+    setApiResponse(null);
   };
 
   const handleViewResults = () => {
@@ -46,12 +49,36 @@ function App() {
     setUserSummary(summary);
     setSummarySubmitted(true);
 
+    // Log user credentials
+    const currentUser = authService.getCurrentUser();
+    const accessToken = authService.getAccessToken();
+    const isLoggedIn = authService.isLoggedIn();
+
+    // eslint-disable-next-line no-console
+    console.log('=== USER CREDENTIALS ===');
+    // eslint-disable-next-line no-console
+    console.log('Is Logged In:', isLoggedIn);
+    // eslint-disable-next-line no-console
+    console.log('Current User:', currentUser);
+    // eslint-disable-next-line no-console
+    console.log('Access Token:', accessToken ? `${accessToken.substring(0, 20)}...` : 'None');
+    // eslint-disable-next-line no-console
+    console.log('========================');
+
     try {
+      // Prepare headers with authentication if available
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      // Add authorization header if user is logged in
+      if (isLoggedIn && accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
+
       const response = await fetch('http://localhost:8000/compare-texts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           original_text: APP_CONFIG.DEFAULT_TEXT,
           summary_text: summary,
@@ -69,6 +96,8 @@ function App() {
       }
 
       const result = await response.json();
+      setApiResponse(result);
+
       // eslint-disable-next-line no-console
       console.log('API Response:', result);
 
@@ -102,6 +131,7 @@ function App() {
               <ResultsLayout
                 originalText={APP_CONFIG.DEFAULT_TEXT}
                 userSummary={userSummary}
+                apiResponse={apiResponse}
               />
             ) : (
               <ReadingSpeedTest

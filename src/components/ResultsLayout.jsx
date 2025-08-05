@@ -3,7 +3,7 @@ import MetricsColumn from './MetricsColumn';
 import { useColumnHeight } from '../hooks';
 import '../styles/components/ResultsLayout.css';
 
-const ResultsLayout = ({ originalText, userSummary, className = '' }) => {
+const ResultsLayout = ({ originalText, userSummary, apiResponse, className = '' }) => {
   const { textColumnRef } = useColumnHeight();
 
   return (
@@ -14,7 +14,7 @@ const ResultsLayout = ({ originalText, userSummary, className = '' }) => {
           originalText={originalText}
           userSummary={userSummary}
         />
-        <MetricsColumn />
+        <MetricsColumn apiResponse={apiResponse} />
       </div>
     </div>
   );
