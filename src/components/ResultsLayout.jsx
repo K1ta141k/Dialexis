@@ -11,6 +11,7 @@ const ResultsLayout = ({
   currentCode = '',
   currentCodeLanguage = 'javascript',
   className = '',
+  wpm = 0,
 }) => {
   const { textColumnRef } = useColumnHeight();
 
@@ -24,6 +25,7 @@ const ResultsLayout = ({
           selectedMode={selectedMode}
           currentCode={currentCode}
           currentCodeLanguage={currentCodeLanguage}
+          wpm={wpm}
         />
         <MetricsColumn apiResponse={apiResponse} />
       </div>

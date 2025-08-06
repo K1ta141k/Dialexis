@@ -14,6 +14,8 @@ const Timer = ({
   onCaretToggle,
   selectedMode = 'lit',
   className = '',
+  shouldReset = false,
+  onTimeUpdate,
 }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -30,12 +32,19 @@ const Timer = ({
     return () => clearInterval(interval);
   }, [isPlaying]);
 
-  // Reset timer when restart is clicked
+  // Reset timer when shouldReset is true
   useEffect(() => {
-    if (!isPlaying) {
+    if (shouldReset) {
       setElapsedTime(0);
     }
-  }, [isPlaying]);
+  }, [shouldReset]);
+
+  // Notify parent of time updates
+  useEffect(() => {
+    if (onTimeUpdate) {
+      onTimeUpdate(elapsedTime);
+    }
+  }, [elapsedTime, onTimeUpdate]);
 
   // Format time as MM:SS
   const formatTime = useCallback((seconds) => {
@@ -45,7 +54,6 @@ const Timer = ({
   }, []);
 
   const handleRestartClick = useCallback(() => {
-    setElapsedTime(0);
     onRestartClick();
   }, [onRestartClick]);
 

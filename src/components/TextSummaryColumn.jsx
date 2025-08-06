@@ -9,6 +9,7 @@ import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-go';
 import 'prismjs/components/prism-rust';
+import WPMTab from './WPMTab';
 import '../styles/components/TextSummaryColumn.css';
 
 const TextSummaryColumn = forwardRef(({
@@ -18,6 +19,7 @@ const TextSummaryColumn = forwardRef(({
   currentCode = '',
   currentCodeLanguage = 'javascript',
   className = '',
+  wpm = 0,
 }, ref) => {
   // Highlight code with Prism.js when in code mode
   const getHighlightedCode = () => {
@@ -35,6 +37,9 @@ const TextSummaryColumn = forwardRef(({
 
   return (
     <div ref={ref} className={`text-summary-column ${className}`}>
+      {/* WPM Tab - Only show when in Lit mode */}
+      {selectedMode === 'lit' && <WPMTab wpm={wpm} />}
+
       <div className="text-summary-container">
         <div className="original-text-section">
           <h3 className="section-title">

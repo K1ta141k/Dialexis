@@ -10,7 +10,8 @@
   min-height: 500px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
 }
 
 .text-summary-container {

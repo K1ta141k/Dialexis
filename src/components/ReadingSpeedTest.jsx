@@ -23,6 +23,8 @@ const ReadingSpeedTest = ({
   isLoadingText,
   isLoadingCode,
   className = '',
+  shouldReset = false,
+  onTimeUpdate,
 }) => {
   return (
     <div className={`reading-speed-test ${className}`}>
@@ -39,6 +41,8 @@ const ReadingSpeedTest = ({
         showCaret={showCaret}
         onCaretToggle={onCaretToggle}
         selectedMode={selectedMode}
+        shouldReset={shouldReset}
+        onTimeUpdate={onTimeUpdate}
       />
 
       {/* Row 3: Content (Reading or Code) */}

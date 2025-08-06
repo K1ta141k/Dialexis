@@ -33,9 +33,16 @@ function App() {
   const [summaryCodeLanguage, setSummaryCodeLanguage] = useState('javascript');
   const [summaryMode, setSummaryMode] = useState('lit');
 
+  // Track reading session for WPM calculation
+  const [readingStartTime, setReadingStartTime] = useState(null);
+  const [readingEndTime, setReadingEndTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [shouldResetTimer, setShouldResetTimer] = useState(false);
+
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
       setHasStartedReading(true);
+      setReadingStartTime(Date.now());
     }
     setIsPlaying(!isPlaying);
   };
@@ -99,6 +106,9 @@ function App() {
     setSummarySubmitted(false);
     setUserSummary('');
     setApiResponse(null);
+    setReadingStartTime(null);
+    setReadingEndTime(null);
+    setShouldResetTimer(true);
 
     // Fetch new random content based on selected mode
     if (selectedMode === 'code') {
@@ -115,6 +125,17 @@ function App() {
   const handleCaretToggle = () => {
     setShowCaret(!showCaret);
   };
+
+  const handleTimeUpdate = (time) => {
+    setElapsedTime(time);
+  };
+
+  // Clear reset flag after timer has been reset
+  useEffect(() => {
+    if (shouldResetTimer) {
+      setShouldResetTimer(false);
+    }
+  }, [shouldResetTimer]);
 
   const handleCodeLitChange = (mode) => {
     setSelectedMode(mode);
@@ -137,9 +158,25 @@ function App() {
     fetchRandomText();
   }, []);
 
+  // Calculate WPM based on reading time and text length
+  const calculateWPM = () => {
+    if (!readingStartTime || !readingEndTime || !summaryText) {
+      return 0;
+    }
+
+    const readingTimeMinutes = (readingEndTime - readingStartTime) / (1000 * 60);
+    const wordCount = summaryText.split(/\s+/).length;
+    const wpm = Math.round(wordCount / readingTimeMinutes);
+
+    return wpm > 0 ? wpm : 0;
+  };
+
   const handleSummarySubmit = async (summary) => {
     setUserSummary(summary);
     setSummarySubmitted(true);
+
+    // Set the reading end time when user submits summary
+    setReadingEndTime(Date.now());
 
     // Save the current content and mode for the summary
     setSummaryText(currentText);
@@ -186,6 +223,7 @@ function App() {
           language: 'en',
           difficulty_level: 'medium',
           tags: ['education', 'reading-test'],
+          elapsed_time: elapsedTime, // Include elapsed time
         }),
       });
 
@@ -233,6 +271,7 @@ function App() {
                 selectedMode={summaryMode}
                 currentCode={summaryCode}
                 currentCodeLanguage={summaryCodeLanguage}
+                wpm={calculateWPM()}
               />
             ) : (
               <ReadingSpeedTest
@@ -251,6 +290,8 @@ function App() {
                 currentCodeLanguage={currentCodeLanguage}
                 isLoadingText={isLoadingText}
                 isLoadingCode={isLoadingCode}
+                onTimeUpdate={handleTimeUpdate} // Pass the new handler
+                shouldReset={shouldResetTimer} // Pass the new prop
               />
             )}
           </MainContent>
