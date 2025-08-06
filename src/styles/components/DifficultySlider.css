@@ -1,0 +1,125 @@
+.difficulty-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 16px;
+  position: relative;
+  padding: 8px;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.difficulty-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 4px 0;
+}
+
+.difficulty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.difficulty-value {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.difficulty-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  background: #e5e7eb;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.difficulty-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: var(--slider-thumb-color, #1f2937);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-slider::-webkit-slider-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 2px;
+}
+
+/* Firefox */
+.difficulty-slider::-moz-range-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 2px;
+  border: none;
+}
+
+.difficulty-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: var(--slider-thumb-color, #1f2937);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus states for accessibility */
+.difficulty-slider:focus {
+  outline: none;
+}
+
+.difficulty-slider:focus::-webkit-slider-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+.difficulty-slider:focus::-moz-range-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Remove all focus outlines */
+.difficulty-slider:focus-visible {
+  outline: none;
+}
+
+.difficulty-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+.difficulty-slider:focus-visible::-moz-range-thumb {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Hover effects */
+.difficulty-slider:hover::-webkit-slider-thumb {
+  background: var(--slider-thumb-color, #374151);
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+.difficulty-slider:hover::-moz-range-thumb {
+  background: var(--slider-thumb-color, #374151);
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}

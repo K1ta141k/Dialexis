@@ -27,6 +27,12 @@ function App() {
   const [isLoadingText, setIsLoadingText] = useState(false);
   const [isLoadingCode, setIsLoadingCode] = useState(false);
 
+  // Track the content used for the current summary
+  const [summaryText, setSummaryText] = useState(APP_CONFIG.DEFAULT_TEXT);
+  const [summaryCode, setSummaryCode] = useState(APP_CONFIG.DEFAULT_CODE);
+  const [summaryCodeLanguage, setSummaryCodeLanguage] = useState('javascript');
+  const [summaryMode, setSummaryMode] = useState('lit');
+
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
       setHasStartedReading(true);
@@ -93,6 +99,7 @@ function App() {
     setSummarySubmitted(false);
     setUserSummary('');
     setApiResponse(null);
+
     // Fetch new random content based on selected mode
     if (selectedMode === 'code') {
       fetchRandomCode();
@@ -111,11 +118,15 @@ function App() {
 
   const handleCodeLitChange = (mode) => {
     setSelectedMode(mode);
-    // Fetch appropriate content based on the selected mode
-    if (mode === 'code') {
-      fetchRandomCode();
-    } else {
-      fetchRandomText();
+
+    // Only fetch new content if we're not in summary view
+    if (!summarySubmitted) {
+      // Fetch appropriate content based on the selected mode
+      if (mode === 'code') {
+        fetchRandomCode();
+      } else {
+        fetchRandomText();
+      }
     }
     // eslint-disable-next-line no-console
     console.log('Selected mode:', mode);
@@ -129,6 +140,12 @@ function App() {
   const handleSummarySubmit = async (summary) => {
     setUserSummary(summary);
     setSummarySubmitted(true);
+
+    // Save the current content and mode for the summary
+    setSummaryText(currentText);
+    setSummaryCode(currentCode);
+    setSummaryCodeLanguage(currentCodeLanguage);
+    setSummaryMode(selectedMode);
 
     // Log user credentials
     const currentUser = authService.getCurrentUser();
@@ -210,9 +227,12 @@ function App() {
           <MainContent>
             {summarySubmitted ? (
               <ResultsLayout
-                originalText={currentText}
+                originalText={summaryText}
                 userSummary={userSummary}
                 apiResponse={apiResponse}
+                selectedMode={summaryMode}
+                currentCode={summaryCode}
+                currentCodeLanguage={summaryCodeLanguage}
               />
             ) : (
               <ReadingSpeedTest

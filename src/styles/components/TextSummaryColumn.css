@@ -6,15 +6,17 @@
   -webkit-backdrop-filter: blur(5px);
   border: 2px solid rgba(255, 255, 255, 0.3);
   padding: 2rem 0;
-  height: fit-content;
+  max-height: calc(100vh - 200px);
   min-height: 500px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .text-summary-container {
   display: flex;
   height: 100%;
+  overflow: hidden;
 }
 
 .original-text-section,
@@ -22,6 +24,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .section-title {
@@ -30,6 +33,7 @@
   color: rgba(128, 128, 128, 0.8);
   margin: 0;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .text-content,
@@ -41,6 +45,11 @@
   text-align: justify;
   overflow-y: auto;
   padding: 2.5rem;
+  min-height: 0;
+}
+
+.text-content-code {
+  padding: 1rem;
 }
 
 .text-content::-webkit-scrollbar,
@@ -75,4 +84,77 @@
     transparent
   );
   border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* Code block styles for TextSummaryColumn */
+.code-block-pre-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.code-block-pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--primary-text-color);
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Prism.js customization for code block in results */
+.code-block-pre pre {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+}
+
+.code-block-pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+}
+
+/* Override Prism.js default styles to work with our design */
+.code-block-pre .token.keyword {
+  color: #d73a49 !important;
+}
+
+.code-block-pre .token.string {
+  color: #032f62 !important;
+}
+
+.code-block-pre .token.function {
+  color: #6f42c1 !important;
+}
+
+.code-block-pre .token.comment {
+  color: #6a737d !important;
+  font-style: italic;
+}
+
+.code-block-pre .token.number {
+  color: #005cc5 !important;
+}
+
+.code-block-pre .token.operator {
+  color: #d73a49 !important;
 } 
