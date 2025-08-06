@@ -1,615 +1,571 @@
-# 🚀 LexiDash API Documentation
+# LexiDrom API Documentation
 
 ## Overview
 
-LexiDash is a text comparison and analysis API that helps users evaluate their summaries against original texts. The API supports both authenticated users (via Google OAuth) and guest users.
+LexiDrom is a sophisticated text comparison and analysis service built with FastAPI. This document provides detailed information about all internal API endpoints, request/response schemas, and usage examples.
 
-**Base URL**: `http://localhost:8000` (development)  
-**API Version**: `1.0.0`
+## Base URL
 
----
+- **Development**: `http://localhost:8000`
+- **Production**: `https://your-deployed-service.run.app`
 
-## 🔐 Authentication
+## Authentication
 
-### **Google OAuth Flow**
-1. **Get Login URL**: `GET /auth/google-url`
-2. **Login with Token**: `POST /auth/google-login`
-3. **Use Bearer Token**: Include `Authorization: Bearer <token>` in headers
+Most endpoints support optional authentication via JWT tokens. Include the token in the Authorization header:
 
-### **Guest Access**
-- Some endpoints support guest access (no authentication required)
-- Guest activities are tracked separately from authenticated users
+```
+Authorization: Bearer <your-jwt-token>
+```
 
----
+## API Endpoints
 
-## 📚 API Endpoints
+### 1. Health Checks
 
-### **🏠 Root Endpoint**
+#### GET `/`
+**Basic health check**
 
-#### `GET /`
-**Description**: Health check and API information  
-**Authentication**: None  
-**Response**:
+**Response:**
 ```json
 {
-    "message": "LexiDash Text Comparison API",
-    "version": "1.0.0",
-    "status": "running"
+  "message": "LexiDrom Text Comparison API",
+  "version": "1.0.0",
+  "status": "running",
+  "timestamp": "2024-01-15T10:30:00.000Z"
 }
 ```
 
----
+#### GET `/health`
+**Detailed health status**
 
-### **🔐 Authentication Endpoints**
-
-#### `GET /auth/google-url`
-**Description**: Get Google OAuth login URL  
-**Authentication**: None  
-**Response**:
+**Response:**
 ```json
 {
-    "auth_url": "https://accounts.google.com/oauth/authorize?..."
+  "status": "healthy",
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "services": {
+    "supabase": "available",
+    "activity_tracker": "available",
+    "race_dataset": "available"
+  }
 }
 ```
 
-#### `POST /auth/google-login`
-**Description**: Authenticate user with Google ID token  
-**Authentication**: None  
-**Request Body**:
+### 2. Authentication Endpoints
+
+#### POST `/auth/google`
+**Google OAuth authentication**
+
+**Request Body:**
 ```json
 {
-    "id_token": "google_id_token_here"
-}
-```
-**Response**:
-```json
-{
-    "access_token": "jwt_token_here",
-    "token_type": "bearer",
-    "expires_in": 3600
+  "id_token": "google-id-token-string"
 }
 ```
 
-#### `GET /auth/me`
-**Description**: Get current user information  
-**Authentication**: Required (Bearer token)  
-**Response**:
+**Response:**
 ```json
 {
-    "email": "user@example.com",
-    "name": "User Name",
-    "picture": "https://profile-picture-url.com"
+  "access_token": "jwt-token-string",
+  "token_type": "bearer",
+  "expires_in": 3600
 }
 ```
 
----
+**Error Responses:**
+- `401 Unauthorized`: Invalid Google token
+- `500 Internal Server Error`: Authentication failed
 
-### **📝 Text Comparison Endpoint**
+#### POST `/auth/refresh`
+**Refresh JWT token**
 
-#### `POST /compare-texts`
-**Description**: Compare original text with user summary and return analysis  
-**Authentication**: Optional (supports both authenticated and guest users)  
-**Request Body**:
+**Headers:**
+```
+Authorization: Bearer <current-jwt-token>
+```
+
+**Response:**
 ```json
 {
-    "original_text": "The complete original text to compare against",
-    "summary_text": "User's summary of the original text",
-    "reading_mode": "detailed",
-    "source": "web",
-    "session_id": "unique_session_id",
-    "user_agent": "browser_user_agent",
-    "ip_address": "192.168.1.1",
-    "category": "educational",
-    "language": "en",
-    "difficulty_level": "medium",
-    "tags": ["education", "science"]
+  "access_token": "new-jwt-token-string",
+  "token_type": "bearer",
+  "expires_in": 3600
 }
 ```
 
-**Request Parameters**:
-- `original_text` (required): The complete original text
-- `summary_text` (required): User's summary to analyze
-- `reading_mode` (optional): Reading mode for analysis
-  - Options: `skimming`, `comprehension`, `study`, `review`, `summary`, `detailed`, `critical`, `comparison`
-  - Default: `detailed`
-- `source` (optional): Source of the request (`web`, `mobile`, `api`)
-- `session_id` (optional): Unique session identifier
-- `user_agent` (optional): Browser user agent string
-- `ip_address` (optional): Client IP address
-- `category` (optional): Content category (`educational`, `business`, `personal`, etc.)
-- `language` (optional): Content language (default: `en`)
-- `difficulty_level` (optional): Content difficulty (`easy`, `medium`, `hard`)
-- `tags` (optional): Array of tags for categorization
+#### GET `/auth/me`
+**Get current user info**
 
-**Response**:
+**Headers:**
+```
+Authorization: Bearer <jwt-token>
+```
+
+**Response:**
 ```json
 {
+  "email": "user@example.com",
+  "name": "John Doe",
+  "picture": "https://example.com/avatar.jpg"
+}
+```
+
+### 3. Text Comparison Endpoints
+
+#### POST `/compare-texts/`
+**Main text comparison endpoint**
+
+**Request Body:**
+```json
+{
+  "original_text": "The original text to compare against",
+  "summary_text": "The user's summary text",
+  "reading_mode": "detailed"
+}
+```
+
+**Reading Modes:**
+- `skimming`: Quick overview focusing on main ideas
+- `comprehension`: Understanding check and verification
+- `study`: Educational focus with detailed analysis
+- `review`: Revision and retention focus
+- `summary`: Summary generation and evaluation
+- `detailed`: Comprehensive analysis (default)
+- `critical`: Analysis and evaluation of arguments
+- `comparison`: Compare multiple texts or versions
+
+**Response:**
+```json
+{
+  "accuracy_score": 85,
+  "correct_points": [
+    "Correctly identified the main theme",
+    "Accurately captured key arguments"
+  ],
+  "missed_points": [
+    "Missed important supporting evidence",
+    "Did not mention the conclusion"
+  ],
+  "wrong_points": [
+    "Incorrect interpretation of the data"
+  ],
+  "tracking_status": "tracked"
+}
+```
+
+**Error Responses:**
+- `400 Bad Request`: Invalid request body
+- `500 Internal Server Error`: Comparison failed
+
+#### POST `/compare-texts/public`
+**Public text comparison endpoint (no authentication required)**
+
+**Request Body:**
+```json
+{
+  "original_text": "The original text to compare against",
+  "summary_text": "The user's summary text",
+  "reading_mode": "detailed"
+}
+```
+
+**Response:** Same as main endpoint
+
+### 4. Activities Endpoints
+
+#### GET `/activities/user/{user_id}`
+**Get user activities**
+
+**Parameters:**
+- `user_id` (path): User identifier
+
+**Headers:**
+```
+Authorization: Bearer <jwt-token>
+```
+
+**Response:**
+```json
+{
+  "activities": [
+    {
+      "id": "activity-uuid",
+      "user_email": "user@example.com",
+      "activity_type": "text_comparison",
+      "timestamp": "2024-01-15T10:30:00.000Z",
+      "details": {
+        "accuracy_score": 85,
+        "reading_mode": "detailed"
+      }
+    }
+  ],
+  "total": 1
+}
+```
+
+#### POST `/activities/log`
+**Log new activity**
+
+**Request Body:**
+```json
+{
+  "user_email": "user@example.com",
+  "activity_type": "text_comparison",
+  "details": {
     "accuracy_score": 85,
-    "correct_points": [
-        "Correctly identified the main theme",
-        "Accurately captured key statistics"
-    ],
-    "missed_points": [
-        "Missed the historical context",
-        "Did not mention the methodology"
-    ],
-    "wrong_points": [
-        "Incorrectly stated the conclusion",
-        "Misinterpreted the data source"
-    ],
-    "tracking_status": "tracked"
+    "reading_mode": "detailed"
+  }
 }
 ```
 
-**Response Fields**:
-- `accuracy_score`: Integer (0-100) indicating summary accuracy
-- `correct_points`: Array of correctly captured points
-- `missed_points`: Array of important points that were missed
-- `wrong_points`: Array of incorrect or misleading information
-- `tracking_status`: Status of activity tracking (`tracked`, `failed`, `not_tracked`)
-
----
-
-### **👥 Admin Endpoints**
-
-#### `GET /admin/users`
-**Description**: Get all registered users (admin only)  
-**Authentication**: Required (Bearer token)  
-**Response**:
+**Response:**
 ```json
-[
+{
+  "success": true,
+  "activity_id": "activity-uuid"
+}
+```
+
+#### GET `/activities/analytics`
+**Get activity analytics**
+
+**Headers:**
+```
+Authorization: Bearer <jwt-token>
+```
+
+**Response:**
+```json
+{
+  "total_activities": 150,
+  "average_accuracy": 78.5,
+  "most_used_mode": "detailed",
+  "recent_activity": [
     {
-        "email": "user1@example.com",
-        "created_at": "2024-01-15T10:30:00Z"
-    },
+      "date": "2024-01-15",
+      "count": 5,
+      "average_score": 82.3
+    }
+  ]
+}
+```
+
+### 5. Random Text Endpoints
+
+#### GET `/random-text/race`
+**Get random RACE dataset text**
+
+**Query Parameters:**
+- `min_length` (optional): Minimum text length (default: 100)
+- `max_length` (optional): Maximum text length (default: 2000)
+- `count` (optional): Number of texts to return (default: 1)
+
+**Response:**
+```json
+{
+  "texts": [
     {
-        "email": "user2@example.com",
-        "created_at": "2024-01-16T14:20:00Z"
+      "text": "The passage from the RACE dataset...",
+      "source": "train",
+      "id": "race-12345",
+      "length": 450
     }
-]
-```
-
-#### `DELETE /admin/users/{email}`
-**Description**: Delete a user (admin only)  
-**Authentication**: Required (Bearer token)  
-**URL Parameters**:
-- `email`: User's email address
-
-**Response**:
-```json
-{
-    "message": "User deleted successfully",
-    "deleted_user": "user@example.com"
+  ],
+  "dataset_info": {
+    "is_loaded": true,
+    "total_articles": 27827,
+    "dataset_name": "RACE (Reading Comprehension from Examinations)"
+  }
 }
 ```
 
----
+#### GET `/random-text/custom`
+**Get custom random text**
 
-### **📊 Activity Analytics Endpoints**
+**Query Parameters:**
+- `length` (optional): Desired text length (default: 500)
+- `topic` (optional): Topic for text generation
 
-#### `GET /activities/user/{email}`
-**Description**: Get activities for a specific user  
-**Authentication**: Required (Bearer token)  
-**URL Parameters**:
-- `email`: User's email address
-
-**Response**:
+**Response:**
 ```json
 {
-    "user_email": "user@example.com",
-    "total_activities": 25,
-    "activities": [
-        {
-            "id": 1,
-            "activity_type": "text_comparison",
-            "accuracy_score": 85,
-            "reading_mode": "detailed",
-            "created_at": "2024-01-15T10:30:00Z",
-            "ip_address": "192.168.1.1",
-            "user_agent": "Mozilla/5.0..."
-        }
-    ]
+  "text": "Generated custom text based on parameters...",
+  "length": 500,
+  "topic": "science"
 }
 ```
 
-#### `GET /activities/guest`
-**Description**: Get all guest activities  
-**Authentication**: Required (Bearer token)  
-**Response**:
+## Data Models
+
+### TextComparisonRequest
 ```json
 {
-    "total_guest_activities": 150,
-    "activities": [
-        {
-            "id": 1,
-            "activity_type": "text_comparison",
-            "accuracy_score": 75,
-            "reading_mode": "skimming",
-            "created_at": "2024-01-15T10:30:00Z",
-            "ip_address": "192.168.1.2",
-            "user_agent": "Mozilla/5.0..."
-        }
-    ]
+  "original_text": "string (required)",
+  "summary_text": "string (required)",
+  "reading_mode": "string (optional, default: 'detailed')"
 }
 ```
 
-#### `GET /activities/stats`
-**Description**: Get overall activity statistics  
-**Authentication**: Required (Bearer token)  
-**Response**:
+### TextComparisonResponse
 ```json
 {
-    "total_activities": 500,
-    "authenticated_users": 25,
-    "guest_activities": 150,
-    "average_accuracy": 78.5,
-    "most_popular_reading_mode": "detailed",
-    "activity_breakdown": {
-        "text_comparison": 450,
-        "login": 50
-    }
+  "accuracy_score": "integer (0-100)",
+  "correct_points": ["array of strings"],
+  "missed_points": ["array of strings"],
+  "wrong_points": ["array of strings"],
+  "tracking_status": "string ('tracked', 'failed', 'not_tracked')"
 }
 ```
 
-#### `GET /activities/points-analysis`
-**Description**: Get detailed analysis of points across all activities  
-**Authentication**: Required (Bearer token)  
-**Response**:
+### GoogleLoginRequest
 ```json
 {
-    "total_activities": 500,
-    "points_analysis": {
-        "correct_points": {
-            "total_count": 2500,
-            "most_common": [
-                {"point": "Main idea captured", "frequency": 150},
-                {"point": "Key statistics included", "frequency": 120}
-            ]
-        },
-        "missed_points": {
-            "total_count": 800,
-            "most_common": [
-                {"point": "Historical context", "frequency": 80},
-                {"point": "Methodology details", "frequency": 65}
-            ]
-        },
-        "wrong_points": {
-            "total_count": 300,
-            "most_common": [
-                {"point": "Incorrect conclusion", "frequency": 45},
-                {"point": "Misinterpreted data", "frequency": 30}
-            ]
-        }
-    }
+  "id_token": "string (required)"
 }
 ```
 
-#### `GET /activities/user/{email}/points`
-**Description**: Get detailed points summary for a specific user  
-**Authentication**: Required (Bearer token)  
-**URL Parameters**:
-- `email`: User's email address
-
-**Response**:
+### Token
 ```json
 {
-    "user_email": "user@example.com",
-    "total_activities": 25,
-    "points_summary": {
-        "correct_points": {
-            "total_count": 125,
-            "most_common": [
-                {"point": "Main idea captured", "frequency": 15},
-                {"point": "Key statistics included", "frequency": 12}
-            ]
-        },
-        "missed_points": {
-            "total_count": 40,
-            "most_common": [
-                {"point": "Historical context", "frequency": 8},
-                {"point": "Methodology details", "frequency": 6}
-            ]
-        },
-        "wrong_points": {
-            "total_count": 15,
-            "most_common": [
-                {"point": "Incorrect conclusion", "frequency": 3},
-                {"point": "Misinterpreted data", "frequency": 2}
-            ]
-        }
-    }
+  "access_token": "string",
+  "token_type": "string",
+  "expires_in": "integer"
 }
 ```
 
-#### `GET /activities/reading-modes/analytics`
-**Description**: Get analytics for reading modes  
-**Authentication**: Required (Bearer token)  
-**Response**:
+### User
 ```json
 {
-    "total_activities": 500,
-    "reading_modes": {
-        "detailed": {
-            "count": 200,
-            "percentage": 40.0,
-            "average_accuracy": 82.5,
-            "min_accuracy": 60,
-            "max_accuracy": 95
-        },
-        "skimming": {
-            "count": 150,
-            "percentage": 30.0,
-            "average_accuracy": 65.0,
-            "min_accuracy": 40,
-            "max_accuracy": 85
-        }
-    },
-    "most_popular_mode": "detailed",
-    "highest_accuracy_mode": "critical"
+  "email": "string",
+  "name": "string (optional)",
+  "picture": "string (optional)"
 }
 ```
 
-#### `GET /activities/user/{email}/reading-modes`
-**Description**: Get reading mode preferences for a specific user  
-**Authentication**: Required (Bearer token)  
-**URL Parameters**:
-- `email`: User's email address
-
-**Response**:
+### Activity
 ```json
 {
-    "user_email": "user@example.com",
-    "preferred_mode": "detailed",
-    "best_performing_mode": "critical",
-    "mode_preferences": {
-        "detailed": {
-            "count": 10,
-            "percentage": 40.0,
-            "average_accuracy": 85.0
-        },
-        "skimming": {
-            "count": 8,
-            "percentage": 32.0,
-            "average_accuracy": 65.0
-        }
-    }
+  "id": "string",
+  "user_email": "string",
+  "activity_type": "string",
+  "timestamp": "datetime",
+  "details": "object",
+  "ip_address": "string (optional)",
+  "user_agent": "string (optional)"
 }
 ```
 
----
+## Error Responses
 
-## 📚 Reading Modes
-
-### **Supported Reading Modes**
-
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| `skimming` | Quick overview for main ideas | Quick review, preview |
-| `comprehension` | Understanding check and verification | Learning assessment |
-| `study` | Educational focus with learning objectives | Academic work |
-| `review` | Revision and retention focus | Exam preparation |
-| `summary` | Summary generation and evaluation | Content summarization |
-| `detailed` | Comprehensive analysis of all content | In-depth analysis |
-| `critical` | Analysis and evaluation of arguments | Critical thinking |
-| `comparison` | Compare multiple texts or versions | Comparative analysis |
-
----
-
-## 🔧 Error Handling
-
-### **HTTP Status Codes**
-
-| Code | Description |
-|------|-------------|
-| `200` | Success |
-| `400` | Bad Request (invalid parameters) |
-| `401` | Unauthorized (invalid/missing token) |
-| `403` | Forbidden (insufficient permissions) |
-| `404` | Not Found |
-| `500` | Internal Server Error |
-
-### **Error Response Format**
+### Standard Error Format
 ```json
 {
-    "detail": "Error message description"
+  "detail": "Error message description"
 }
 ```
 
-### **Common Error Scenarios**
+### Common HTTP Status Codes
 
-#### **Authentication Errors**
-```json
-{
-    "detail": "Could not validate credentials"
-}
-```
+- `200 OK`: Request successful
+- `201 Created`: Resource created successfully
+- `400 Bad Request`: Invalid request data
+- `401 Unauthorized`: Authentication required or failed
+- `403 Forbidden`: Insufficient permissions
+- `404 Not Found`: Resource not found
+- `422 Unprocessable Entity`: Validation error
+- `500 Internal Server Error`: Server error
 
-#### **Validation Errors**
-```json
-{
-    "detail": [
-        {
-            "loc": ["body", "original_text"],
-            "msg": "field required",
-            "type": "value_error.missing"
-        }
-    ]
-}
-```
+## Rate Limiting
 
-#### **Server Errors**
-```json
-{
-    "detail": "Error processing request: AI model unavailable"
-}
-```
+Currently, no rate limiting is implemented. Consider implementing rate limiting for production use.
 
----
+## CORS Configuration
 
-## 🚀 Usage Examples
+The API supports CORS for the following origins:
+- `http://localhost:3000`
+- `http://localhost:8000`
+- `http://localhost:5173`
+- `https://your-production-domain.com`
 
-### **JavaScript/TypeScript Examples**
+## Testing
 
-#### **1. Guest Text Comparison**
-```javascript
-const response = await fetch('http://localhost:8000/compare-texts', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        original_text: "Your original text here",
-        summary_text: "Your summary here",
-        reading_mode: "detailed",
-        category: "educational"
-    })
-});
+### Using curl
 
-const result = await response.json();
-console.log('Accuracy Score:', result.accuracy_score);
-console.log('Correct Points:', result.correct_points);
-```
-
-#### **2. Authenticated Text Comparison**
-```javascript
-const response = await fetch('http://localhost:8000/compare-texts', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-    },
-    body: JSON.stringify({
-        original_text: "Your original text here",
-        summary_text: "Your summary here",
-        reading_mode: "study",
-        category: "academic"
-    })
-});
-```
-
-#### **3. Google OAuth Login**
-```javascript
-// Step 1: Get login URL
-const urlResponse = await fetch('http://localhost:8000/auth/google-url');
-const { auth_url } = await urlResponse.json();
-
-// Step 2: Redirect user to Google OAuth
-window.location.href = auth_url;
-
-// Step 3: After Google redirects back with token
-const loginResponse = await fetch('http://localhost:8000/auth/google-login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        id_token: googleIdToken
-    })
-});
-
-const { access_token } = await loginResponse.json();
-```
-
-#### **4. Get User Activities**
-```javascript
-const response = await fetch('http://localhost:8000/activities/user/user@example.com', {
-    headers: {
-        'Authorization': `Bearer ${accessToken}`
-    }
-});
-
-const activities = await response.json();
-console.log('User Activities:', activities);
-```
-
-#### **5. Get Reading Mode Analytics**
-```javascript
-const response = await fetch('http://localhost:8000/activities/reading-modes/analytics', {
-    headers: {
-        'Authorization': `Bearer ${accessToken}`
-    }
-});
-
-const analytics = await response.json();
-console.log('Most Popular Mode:', analytics.most_popular_mode);
-console.log('Highest Accuracy Mode:', analytics.highest_accuracy_mode);
-```
-
-### **cURL Examples**
-
-#### **Guest Text Comparison**
+**Health Check:**
 ```bash
-curl -X POST http://localhost:8000/compare-texts \
+curl -X GET "http://localhost:8000/"
+```
+
+**Text Comparison:**
+```bash
+curl -X POST "http://localhost:8000/compare-texts/" \
   -H "Content-Type: application/json" \
   -d '{
-    "original_text": "Your original text here",
-    "summary_text": "Your summary here",
+    "original_text": "The original text",
+    "summary_text": "The summary",
     "reading_mode": "detailed"
   }'
 ```
 
-#### **Authenticated Text Comparison**
+**Authenticated Request:**
 ```bash
-curl -X POST http://localhost:8000/compare-texts \
+curl -X GET "http://localhost:8000/auth/me" \
+  -H "Authorization: Bearer your-jwt-token"
+```
+
+### Using Python requests
+
+```python
+import requests
+
+# Health check
+response = requests.get("http://localhost:8000/")
+print(response.json())
+
+# Text comparison
+data = {
+    "original_text": "The original text",
+    "summary_text": "The summary",
+    "reading_mode": "detailed"
+}
+response = requests.post("http://localhost:8000/compare-texts/", json=data)
+print(response.json())
+```
+
+## Service Dependencies
+
+### Required Services
+
+1. **Supabase Manager**
+   - Handles database connections
+   - Manages user data and activities
+   - Provides real-time database operations
+
+2. **Activity Tracker**
+   - Logs user activities
+   - Tracks text comparison results
+   - Provides analytics data
+
+3. **Text Comparison Service**
+   - Performs AI-powered text analysis
+   - Uses Google's Gemma-3n model
+   - Provides fallback to simple comparison
+
+4. **RACE Dataset Service**
+   - Loads educational text dataset
+   - Provides random text generation
+   - Manages dataset caching
+
+### Service Health Checks
+
+Each service provides availability status:
+- `available`: Service is working correctly
+- `unavailable`: Service is not available
+- `unknown`: Service status cannot be determined
+
+## Monitoring and Logging
+
+### Log Levels
+- `INFO`: General application information
+- `WARNING`: Non-critical issues
+- `ERROR`: Critical errors that need attention
+- `DEBUG`: Detailed debugging information
+
+### Key Metrics
+- Request response times
+- Error rates by endpoint
+- Service availability
+- Database connection status
+- AI model availability
+
+## Security Considerations
+
+1. **JWT Token Security**
+   - Tokens expire after 30 minutes
+   - Use HTTPS in production
+   - Store JWT secret securely
+
+2. **Input Validation**
+   - All inputs validated with Pydantic
+   - SQL injection protection via Supabase
+   - XSS protection through proper encoding
+
+3. **CORS Configuration**
+   - Restrict origins to trusted domains
+   - Configure for production environment
+
+4. **Environment Variables**
+   - Store sensitive data securely
+   - Use Google Secret Manager in production
+   - Never commit secrets to version control
+
+## Performance Considerations
+
+1. **Database Optimization**
+   - Use connection pooling
+   - Implement proper indexing
+   - Monitor query performance
+
+2. **AI Model Optimization**
+   - Cache model responses when possible
+   - Implement fallback mechanisms
+   - Monitor API usage and costs
+
+3. **Caching Strategy**
+   - Cache frequently accessed data
+   - Implement Redis for session storage
+   - Cache RACE dataset in memory
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Authentication Failures**
+   - Verify Google OAuth credentials
+   - Check JWT secret configuration
+   - Ensure proper token format
+
+2. **Database Connection Issues**
+   - Verify Supabase credentials
+   - Check network connectivity
+   - Monitor connection pool status
+
+3. **AI Model Issues**
+   - Verify Google API key
+   - Check API quotas and limits
+   - Monitor model availability
+
+4. **Performance Issues**
+   - Monitor memory usage
+   - Check CPU utilization
+   - Review database query performance
+
+### Debug Commands
+
+```bash
+# Check service health
+curl -X GET "http://localhost:8000/health"
+
+# Test text comparison
+curl -X POST "http://localhost:8000/compare-texts/" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
-  -d '{
-    "original_text": "Your original text here",
-    "summary_text": "Your summary here",
-    "reading_mode": "study"
-  }'
+  -d '{"original_text":"test","summary_text":"test"}'
+
+# Check logs
+gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=lexidrom"
 ```
 
-#### **Get Activity Statistics**
-```bash
-curl -X GET http://localhost:8000/activities/stats \
-  -H "Authorization: Bearer YOUR_TOKEN_HERE"
-```
+## Version History
 
----
+- **v1.0.0**: Initial API release
+- **v1.1.0**: Added activity tracking
+- **v1.2.0**: Enhanced text comparison with AI
+- **v1.3.0**: Added RACE dataset integration
 
-## 📋 Frontend Integration Checklist
+## Support
 
-### **Essential Features**
-- [ ] **Google OAuth Integration**: Implement login flow
-- [ ] **Token Management**: Store and refresh JWT tokens
-- [ ] **Guest Mode**: Allow unauthenticated text comparison
-- [ ] **Reading Mode Selection**: Dropdown for mode selection
-- [ ] **Real-time Analysis**: Display accuracy score and points
-- [ ] **Activity Tracking**: Show user's activity history
-- [ ] **Analytics Dashboard**: Display reading mode preferences
-
-### **Optional Features**
-- [ ] **Session Management**: Track user sessions
-- [ ] **IP/User Agent Tracking**: For enhanced analytics
-- [ ] **Content Categorization**: Tags and difficulty levels
-- [ ] **Export Functionality**: Download activity reports
-- [ ] **Admin Panel**: User management interface
-
----
-
-## 🔗 API Base URL Configuration
-
-### **Development**
-```javascript
-const API_BASE_URL = 'http://localhost:8000';
-```
-
-### **Production**
-```javascript
-const API_BASE_URL = 'https://your-production-domain.com';
-```
-
----
-
-## 📞 Support
-
-For API support and questions:
-- **Documentation**: Check this file for endpoint details
-- **Testing**: Use the provided test scripts
-- **Examples**: See usage examples above
-- **Error Handling**: Implement proper error handling for all requests
-
----
-
-**🎉 Happy Coding!** Your LexiDash API is ready for frontend integration! 🚀 
+For API-related issues:
+1. Check the health endpoint for service status
+2. Review application logs for error details
+3. Verify environment variable configuration
+4. Test with minimal request data
+5. Contact development team with specific error messages 

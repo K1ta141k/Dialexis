@@ -17,6 +17,11 @@ const ReadingSpeedTest = ({
   showCaret,
   onCaretToggle,
   selectedMode = 'lit',
+  currentText,
+  currentCode,
+  currentCodeLanguage,
+  isLoadingText,
+  isLoadingCode,
   className = '',
 }) => {
   return (
@@ -39,9 +44,12 @@ const ReadingSpeedTest = ({
       {/* Row 3: Content (Reading or Code) */}
       {selectedMode === 'code' ? (
         <CodeContent
+          code={currentCode}
+          language={currentCodeLanguage}
           isPlaying={isPlaying}
           hasStartedReading={hasStartedReading}
           onSummarySubmit={onSummarySubmit}
+          isLoading={isLoadingCode}
         />
       ) : (
         <ReadingContent
@@ -50,6 +58,8 @@ const ReadingSpeedTest = ({
           caretSpeed={caretSpeed}
           onSummarySubmit={onSummarySubmit}
           showCaret={showCaret}
+          text={currentText}
+          isLoading={isLoadingText}
         />
       )}
 

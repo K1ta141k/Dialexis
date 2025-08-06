@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Background from './components/Background';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -8,6 +8,8 @@ import ResultsLayout from './components/ResultsLayout';
 import { APP_CONFIG } from './constants';
 import { AUTH_CONFIG } from './config/auth';
 import authService from './services/authService';
+import randomTextService from './services/randomTextService';
+import randomCodeService from './services/randomCodeService';
 import './styles/components/App.css';
 
 function App() {
@@ -19,6 +21,11 @@ function App() {
   const [userSummary, setUserSummary] = useState('');
   const [apiResponse, setApiResponse] = useState(null);
   const [selectedMode, setSelectedMode] = useState('lit'); // 'lit' or 'code'
+  const [currentText, setCurrentText] = useState(APP_CONFIG.DEFAULT_TEXT);
+  const [currentCode, setCurrentCode] = useState(APP_CONFIG.DEFAULT_CODE);
+  const [currentCodeLanguage, setCurrentCodeLanguage] = useState('javascript');
+  const [isLoadingText, setIsLoadingText] = useState(false);
+  const [isLoadingCode, setIsLoadingCode] = useState(false);
 
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
@@ -27,15 +34,72 @@ function App() {
     setIsPlaying(!isPlaying);
   };
 
+  const fetchRandomText = async () => {
+    setIsLoadingText(true);
+    try {
+      const randomText = await randomTextService.getRandomText({
+        minLength: 200,
+        maxLength: 1000,
+      });
+
+      if (randomText) {
+        setCurrentText(randomText);
+        // eslint-disable-next-line no-console
+        console.log('Loaded random text:', randomText);
+      } else {
+        // Fallback to default text if API fails
+        setCurrentText(APP_CONFIG.DEFAULT_TEXT);
+        // eslint-disable-next-line no-console
+        console.log('Using fallback text:', APP_CONFIG.DEFAULT_TEXT);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching random text:', error);
+      setCurrentText(APP_CONFIG.DEFAULT_TEXT);
+    } finally {
+      setIsLoadingText(false);
+    }
+  };
+
+  const fetchRandomCode = async () => {
+    setIsLoadingCode(true);
+    try {
+      const randomCode = await randomCodeService.getRandomCode();
+
+      if (randomCode) {
+        setCurrentCode(randomCode.code);
+        setCurrentCodeLanguage(randomCode.language || 'javascript');
+        // eslint-disable-next-line no-console
+        console.log('Loaded random code:', randomCode);
+      } else {
+        // Fallback to default code if API fails
+        setCurrentCode(APP_CONFIG.DEFAULT_CODE);
+        setCurrentCodeLanguage('javascript');
+        // eslint-disable-next-line no-console
+        console.log('Using fallback code:', APP_CONFIG.DEFAULT_CODE);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching random code:', error);
+      setCurrentCode(APP_CONFIG.DEFAULT_CODE);
+    } finally {
+      setIsLoadingCode(false);
+    }
+  };
+
   const handleRestartClick = () => {
     setIsPlaying(false);
     setHasStartedReading(false);
     setSummarySubmitted(false);
     setUserSummary('');
     setApiResponse(null);
+    // Fetch new random content based on selected mode
+    if (selectedMode === 'code') {
+      fetchRandomCode();
+    } else {
+      fetchRandomText();
+    }
   };
-
-
 
   const handleSpeedChange = (newSpeed) => {
     setCaretSpeed(newSpeed);
@@ -47,10 +111,20 @@ function App() {
 
   const handleCodeLitChange = (mode) => {
     setSelectedMode(mode);
-    // You can add additional logic here based on the selected mode
+    // Fetch appropriate content based on the selected mode
+    if (mode === 'code') {
+      fetchRandomCode();
+    } else {
+      fetchRandomText();
+    }
     // eslint-disable-next-line no-console
     console.log('Selected mode:', mode);
   };
+
+  // Fetch random text on component mount
+  useEffect(() => {
+    fetchRandomText();
+  }, []);
 
   const handleSummarySubmit = async (summary) => {
     setUserSummary(summary);
@@ -87,7 +161,7 @@ function App() {
         method: 'POST',
         headers,
         body: JSON.stringify({
-          original_text: APP_CONFIG.DEFAULT_TEXT,
+          original_text: currentText,
           summary_text: summary,
           reading_mode: 'detailed',
           source: 'web',
@@ -136,7 +210,7 @@ function App() {
           <MainContent>
             {summarySubmitted ? (
               <ResultsLayout
-                originalText={APP_CONFIG.DEFAULT_TEXT}
+                originalText={currentText}
                 userSummary={userSummary}
                 apiResponse={apiResponse}
               />
@@ -152,6 +226,11 @@ function App() {
                 showCaret={showCaret}
                 onCaretToggle={handleCaretToggle}
                 selectedMode={selectedMode}
+                currentText={currentText}
+                currentCode={currentCode}
+                currentCodeLanguage={currentCodeLanguage}
+                isLoadingText={isLoadingText}
+                isLoadingCode={isLoadingCode}
               />
             )}
           </MainContent>
