@@ -26,6 +26,7 @@ function App() {
   const [currentCodeLanguage, setCurrentCodeLanguage] = useState('javascript');
   const [isLoadingText, setIsLoadingText] = useState(false);
   const [isLoadingCode, setIsLoadingCode] = useState(false);
+  const [codeDifficulty, setCodeDifficulty] = useState('intermediate');
 
   // Track the content used for the current summary
   const [summaryText, setSummaryText] = useState(APP_CONFIG.DEFAULT_TEXT);
@@ -77,7 +78,9 @@ function App() {
   const fetchRandomCode = async () => {
     setIsLoadingCode(true);
     try {
-      const randomCode = await randomCodeService.getRandomCode();
+      const randomCode = await randomCodeService.getRandomCode({
+        difficulty: codeDifficulty,
+      });
 
       if (randomCode) {
         setCurrentCode(randomCode.code);
@@ -128,6 +131,14 @@ function App() {
 
   const handleTimeUpdate = (time) => {
     setElapsedTime(time);
+  };
+
+  const handleDifficultyChange = (difficulty) => {
+    setCodeDifficulty(difficulty);
+    // Fetch new code with the new difficulty if we're in code mode
+    if (selectedMode === 'code' && !summarySubmitted) {
+      fetchRandomCode();
+    }
   };
 
   // Clear reset flag after timer has been reset
@@ -292,6 +303,8 @@ function App() {
                 isLoadingCode={isLoadingCode}
                 onTimeUpdate={handleTimeUpdate} // Pass the new handler
                 shouldReset={shouldResetTimer} // Pass the new prop
+                codeDifficulty={codeDifficulty}
+                onDifficultyChange={handleDifficultyChange}
               />
             )}
           </MainContent>

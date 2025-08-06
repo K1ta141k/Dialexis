@@ -2,27 +2,29 @@ import { useState, useCallback } from 'react';
 import '../styles/components/DifficultySlider.css';
 
 const DifficultySlider = ({
-  value = 1, // 1 = Easy, 2 = Medium, 3 = Difficult
+  value = 2, // 1 = Beginner, 2 = Intermediate, 3 = Advanced
   onChange,
   className = '',
 }) => {
   const [difficultyValue, setDifficultyValue] = useState(value);
 
-  const difficulties = ['Easy', 'Medium', 'Difficult'];
+  const difficulties = ['Beginner', 'Intermediate', 'Advanced'];
+  const difficultyValues = ['beginner', 'intermediate', 'advanced'];
 
   const difficultyColors = {
-    1: 'rgba(34, 197, 94, 0.8)', // green for Easy
-    2: 'rgba(249, 115, 22, 0.8)', // orange for Medium
-    3: 'rgba(239, 68, 68, 0.8)', // red for Difficult
+    1: 'rgba(34, 197, 94, 0.8)', // green for Beginner
+    2: 'rgba(249, 115, 22, 0.8)', // orange for Intermediate
+    3: 'rgba(239, 68, 68, 0.8)', // red for Advanced
   };
 
   const handleChange = useCallback((e) => {
     const newValue = parseInt(e.target.value, 10);
     setDifficultyValue(newValue);
     if (onChange) {
-      onChange(newValue);
+      // Return the actual difficulty string value
+      onChange(difficultyValues[newValue - 1]);
     }
-  }, [onChange]);
+  }, [onChange, difficultyValues]);
 
   const sliderStyle = {
     '--slider-thumb-color': difficultyColors[difficultyValue],

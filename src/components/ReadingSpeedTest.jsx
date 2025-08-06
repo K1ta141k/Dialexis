@@ -25,6 +25,8 @@ const ReadingSpeedTest = ({
   className = '',
   shouldReset = false,
   onTimeUpdate,
+  codeDifficulty = 'intermediate',
+  onDifficultyChange,
 }) => {
   return (
     <div className={`reading-speed-test ${className}`}>
@@ -43,6 +45,8 @@ const ReadingSpeedTest = ({
         selectedMode={selectedMode}
         shouldReset={shouldReset}
         onTimeUpdate={onTimeUpdate}
+        codeDifficulty={codeDifficulty}
+        onDifficultyChange={onDifficultyChange}
       />
 
       {/* Row 3: Content (Reading or Code) */}

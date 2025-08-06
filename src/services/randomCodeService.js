@@ -3,15 +3,24 @@ import { AUTH_CONFIG } from '../config/auth';
 class RandomCodeService {
   constructor() {
     this.baseURL = AUTH_CONFIG.API_BASE_URL;
+    this.supportedDifficulties = ['beginner', 'intermediate', 'advanced'];
   }
 
   async getRandomCode(options = {}) {
     const {
-      difficulty = 'medium',
+      difficulty: initialDifficulty = 'intermediate',
       language = 'python',
       minLength = 50,
       maxLength = 2000,
     } = options;
+
+    // Validate difficulty level
+    let difficulty = initialDifficulty;
+    if (!this.supportedDifficulties.includes(difficulty)) {
+      // eslint-disable-next-line no-console
+      console.warn(`Invalid difficulty: ${difficulty}. Using 'intermediate' instead.`);
+      difficulty = 'intermediate';
+    }
 
     try {
       const queryParams = new URLSearchParams({
@@ -48,6 +57,10 @@ class RandomCodeService {
       console.error('Error fetching random code:', error);
       return null;
     }
+  }
+
+  getSupportedDifficulties() {
+    return [...this.supportedDifficulties];
   }
 }
 

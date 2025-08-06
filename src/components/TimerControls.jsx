@@ -15,10 +15,16 @@ const TimerControls = ({
   onCaretToggle,
   selectedMode = 'lit',
   className = '',
+  codeDifficulty = 'intermediate',
+  onDifficultyChange,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('Python');
-  const [difficulty, setDifficulty] = useState(1);
+  // Convert difficulty string to numeric value for the slider
+  const getDifficultyValue = (difficulty) => {
+    const difficultyMap = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+    return difficultyMap[difficulty] || 2;
+  };
 
   const languages = ['Python', 'Java', 'C', 'C++'];
 
@@ -46,7 +52,9 @@ const TimerControls = ({
   };
 
   const handleDifficultyChange = (newDifficulty) => {
-    setDifficulty(newDifficulty);
+    if (onDifficultyChange) {
+      onDifficultyChange(newDifficulty);
+    }
   };
 
   return (
@@ -135,7 +143,7 @@ const TimerControls = ({
           </div>
 
           <DifficultySlider
-            value={difficulty}
+            value={getDifficultyValue(codeDifficulty)}
             onChange={handleDifficultyChange}
           />
         </>

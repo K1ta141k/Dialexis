@@ -16,6 +16,8 @@ const Timer = ({
   className = '',
   shouldReset = false,
   onTimeUpdate,
+  codeDifficulty = 'intermediate',
+  onDifficultyChange,
 }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -70,6 +72,8 @@ const Timer = ({
           showCaret={showCaret}
           onCaretToggle={onCaretToggle}
           selectedMode={selectedMode}
+          codeDifficulty={codeDifficulty}
+          onDifficultyChange={onDifficultyChange}
         />
       </div>
 

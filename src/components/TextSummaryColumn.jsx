@@ -39,7 +39,6 @@ const TextSummaryColumn = forwardRef(({
     <div ref={ref} className={`text-summary-column ${className}`}>
       {/* WPM Tab - Only show when in Lit mode */}
       {selectedMode === 'lit' && <WPMTab wpm={wpm} />}
-
       <div className="text-summary-container">
         <div className="original-text-section">
           <h3 className="section-title">

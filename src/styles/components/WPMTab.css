@@ -1,6 +1,6 @@
 .wpm-tab {
   position: absolute;
-  top: -40px;
+  top: -32px;
   right: 10px;
   z-index: 10;
   width: calc(100% - 20px);
@@ -8,30 +8,33 @@
 }
 
 .tab-content {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 4px 20px;
-  color: rgba(128, 128, 128, 0.8);
-  font-weight: 600;
-  font-size: 1.2rem;
-  white-space: nowrap;
-  text-align: center;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  --r: .8em; /* control the curvature */
 
-  border-inline: var(--r) solid #0000;
-  border-radius: calc(2*var(--r)) calc(2*var(--r)) 0 0/var(--r);
-  mask: 
-    radial-gradient(var(--r) at var(--r) 0,#0000 98%,#000 101%)
-      calc(-1*var(--r)) 100%/100% var(--r) repeat-x,
-    conic-gradient(#000 0 0) padding-box;
-}
+     
+    background: rgba(255, 255, 255, 0.8);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 4px 20px;
+    color: rgba(128, 128, 128, 0.8);
+    font-weight: 600;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    --r: .8em; /* control the curvature */
+  
+    border-inline: var(--r) solid #0000;
+    border-radius: calc(2*var(--r)) calc(2*var(--r)) 0 0/var(--r);
+    mask: 
+      radial-gradient(var(--r) at var(--r) 0,#0000 98%,#000 101%)
+        calc(-1*var(--r)) 100%/100% var(--r) repeat-x,
+      conic-gradient(#000 0 0) padding-box;
+  }
 
 .tab-flex-container {
   display: flex;
@@ -44,7 +47,7 @@
 /* Responsive adjustments for smaller screens */
 @media (max-width: 900px) {
   .wpm-tab {
-    top: -35px;
+    top: -28px;
   }
   
   .tab-content {
@@ -59,7 +62,7 @@
 
 @media (max-width: 600px) {
   .wpm-tab {
-    top: -35px;
+    top: -28px;
   }
   
   .tab-content {
