@@ -1,8 +1,8 @@
 // Authentication Configuration
 export const AUTH_CONFIG = {
   // API Base URL
+  //API_BASE_URL: 'https://lexidrom-265984432299.us-central1.run.app',
   API_BASE_URL: 'http://192.168.1.173:8000',
-
   // Token storage keys
   TOKEN_KEY: 'access_token',
   USER_KEY: 'user',

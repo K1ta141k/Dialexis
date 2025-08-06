@@ -179,7 +179,7 @@ function App() {
     setReadingEndTime(Date.now());
 
     // Save the current content and mode for the summary
-    setSummaryText(currentText);
+    setSummaryText(selectedMode === 'code' ? currentCode : currentText);
     setSummaryCode(currentCode);
     setSummaryCodeLanguage(currentCodeLanguage);
     setSummaryMode(selectedMode);
@@ -215,7 +215,7 @@ function App() {
         method: 'POST',
         headers,
         body: JSON.stringify({
-          original_text: currentText,
+          original_text: selectedMode === 'code' ? currentCode : currentText,
           summary_text: summary,
           reading_mode: 'detailed',
           source: 'web',
