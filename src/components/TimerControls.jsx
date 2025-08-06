@@ -11,6 +11,7 @@ const TimerControls = ({
   speed = 200,
   showCaret,
   onCaretToggle,
+  selectedMode = 'lit',
   className = '',
 }) => {
   return (
@@ -57,14 +58,16 @@ const TimerControls = ({
         </svg>
       </button>
 
-      {/* Caret Boolean */}
-      <CaretBoolean
-        isChecked={showCaret}
-        onToggle={onCaretToggle}
-      />
+      {/* Caret Boolean - Only visible in Lit mode */}
+      {selectedMode === 'lit' && (
+        <CaretBoolean
+          isChecked={showCaret}
+          onToggle={onCaretToggle}
+        />
+      )}
 
-      {/* Speed Slider - Only visible when caret is enabled */}
-      {showCaret && (
+      {/* Speed Slider - Only visible when caret is enabled and in Lit mode */}
+      {showCaret && selectedMode === 'lit' && (
         <Slider
           value={speed}
           onChange={onSpeedChange}

@@ -17,7 +17,7 @@ const MetricsColumn = ({ apiResponse, className = '' }) => {
 
   return (
     <div className={`metrics-column ${className}`}>
-      <MetricsTab title="Metrics" />
+      <MetricsTab title="Metrics" apiResponse={apiResponse} />
       <div className="metrics-container">
         <div className="metric-row top-row">
           <h3 className="metric-title spot-on-title">

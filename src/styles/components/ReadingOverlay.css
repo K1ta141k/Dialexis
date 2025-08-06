@@ -4,9 +4,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 20;
-  pointer-events: none;
+  z-index: 50;
+  pointer-events: auto;
   transition: opacity 0.15s ease-in-out;
+  border-radius: inherit;
 }
 
 .reading-overlay--hidden {
@@ -21,7 +22,7 @@
   right: 0;
   bottom: 0;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 16px;
+  border-radius: inherit;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);

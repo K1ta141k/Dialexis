@@ -2,7 +2,7 @@
 import Timer from './Timer';
 import ReadingTestTitle from './ReadingTestTitle';
 import ReadingContent from './ReadingContent';
-import ResultsRow from './ResultsRow';
+import CodeContent from './CodeContent';
 import { SLIDER_CONFIG } from '../constants';
 import '../styles/components/ReadingSpeedTest.css';
 
@@ -11,18 +11,18 @@ const ReadingSpeedTest = ({
   hasStartedReading,
   onPlayPauseClick,
   onRestartClick,
-  onViewResults,
   onSummarySubmit,
   caretSpeed = SLIDER_CONFIG.DEFAULT_VALUE,
   onSpeedChange,
   showCaret,
   onCaretToggle,
+  selectedMode = 'lit',
   className = '',
 }) => {
   return (
     <div className={`reading-speed-test ${className}`}>
       {/* Row 1: Reading Speed Test Title */}
-      <ReadingTestTitle />
+      <ReadingTestTitle mode={selectedMode} />
 
       {/* Row 2: Timer */}
       <Timer
@@ -33,19 +33,26 @@ const ReadingSpeedTest = ({
         speed={caretSpeed}
         showCaret={showCaret}
         onCaretToggle={onCaretToggle}
+        selectedMode={selectedMode}
       />
 
-      {/* Row 3: Reading Content */}
-      <ReadingContent
-        isPlaying={isPlaying}
-        hasStartedReading={hasStartedReading}
-        caretSpeed={caretSpeed}
-        onSummarySubmit={onSummarySubmit}
-        showCaret={showCaret}
-      />
+      {/* Row 3: Content (Reading or Code) */}
+      {selectedMode === 'code' ? (
+        <CodeContent
+          isPlaying={isPlaying}
+          hasStartedReading={hasStartedReading}
+          onSummarySubmit={onSummarySubmit}
+        />
+      ) : (
+        <ReadingContent
+          isPlaying={isPlaying}
+          hasStartedReading={hasStartedReading}
+          caretSpeed={caretSpeed}
+          onSummarySubmit={onSummarySubmit}
+          showCaret={showCaret}
+        />
+      )}
 
-      {/* Row 4: Results Row */}
-      <ResultsRow onViewResults={onViewResults} />
     </div>
   );
 };

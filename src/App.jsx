@@ -6,6 +6,7 @@ import MainContent from './components/MainContent';
 import ReadingSpeedTest from './components/ReadingSpeedTest';
 import ResultsLayout from './components/ResultsLayout';
 import { APP_CONFIG } from './constants';
+import { AUTH_CONFIG } from './config/auth';
 import authService from './services/authService';
 import './styles/components/App.css';
 
@@ -17,6 +18,7 @@ function App() {
   const [summarySubmitted, setSummarySubmitted] = useState(false);
   const [userSummary, setUserSummary] = useState('');
   const [apiResponse, setApiResponse] = useState(null);
+  const [selectedMode, setSelectedMode] = useState('lit'); // 'lit' or 'code'
 
   const handlePlayPauseClick = () => {
     if (!hasStartedReading && !isPlaying) {
@@ -33,9 +35,7 @@ function App() {
     setApiResponse(null);
   };
 
-  const handleViewResults = () => {
-    // Handle view results functionality
-  };
+
 
   const handleSpeedChange = (newSpeed) => {
     setCaretSpeed(newSpeed);
@@ -43,6 +43,13 @@ function App() {
 
   const handleCaretToggle = () => {
     setShowCaret(!showCaret);
+  };
+
+  const handleCodeLitChange = (mode) => {
+    setSelectedMode(mode);
+    // You can add additional logic here based on the selected mode
+    // eslint-disable-next-line no-console
+    console.log('Selected mode:', mode);
   };
 
   const handleSummarySubmit = async (summary) => {
@@ -76,7 +83,7 @@ function App() {
         headers.Authorization = `Bearer ${accessToken}`;
       }
 
-      const response = await fetch('http://localhost:8000/compare-texts', {
+      const response = await fetch(`${AUTH_CONFIG.API_BASE_URL}/compare-texts`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -123,7 +130,7 @@ function App() {
         <div className="grid-container">
 
           {/* Row 1: Header */}
-          <Header onLogoClick={handleRestartClick} />
+          <Header onLogoClick={handleRestartClick} onCodeLitChange={handleCodeLitChange} />
 
           {/* Row 2: Main Content */}
           <MainContent>
@@ -139,12 +146,12 @@ function App() {
                 hasStartedReading={hasStartedReading}
                 onPlayPauseClick={handlePlayPauseClick}
                 onRestartClick={handleRestartClick}
-                onViewResults={handleViewResults}
                 onSummarySubmit={handleSummarySubmit}
                 caretSpeed={caretSpeed}
                 onSpeedChange={handleSpeedChange}
                 showCaret={showCaret}
                 onCaretToggle={handleCaretToggle}
+                selectedMode={selectedMode}
               />
             )}
           </MainContent>

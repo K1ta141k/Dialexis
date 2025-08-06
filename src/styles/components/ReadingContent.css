@@ -14,4 +14,5 @@
   margin: 0;
   box-shadow: var(--shadow-light);
   position: relative;
+  overflow: hidden;
 } 

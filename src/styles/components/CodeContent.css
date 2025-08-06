@@ -1,0 +1,152 @@
+/* Code Content Styles */
+.traversing-code-row {
+  width: 100%;
+}
+
+.code-content-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.traversing-code-row .code-block-container {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  position: relative;
+  max-width: 80%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.traversing-code-row .code-block-header {
+  padding: 0.75rem 1.5rem;
+  background-color: #1f2937;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.traversing-code-row .code-block-title {
+  font-weight: 600;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.traversing-code-row .code-block-language {
+  font-size: 0.8rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.traversing-code-row .code-block-pre-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 16px 16px;
+}
+
+.traversing-code-row .code-block-pre {
+  margin: 0;
+  padding: 1.5rem 2rem 1.5rem 2rem;
+  background: transparent;
+  border: none;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--primary-text-color);
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  /* Add right padding to accommodate scrollbar */
+  padding-right: 2.5rem;
+}
+
+.traversing-code-row .code-block-pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Prism.js customization for code block */
+.traversing-code-row .code-block-pre pre {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+}
+
+.traversing-code-row .code-block-pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+}
+
+/* Override Prism.js default styles to work with our design */
+.traversing-code-row .code-block-pre .token.keyword {
+  color: #d73a49 !important;
+}
+
+.traversing-code-row .code-block-pre .token.string {
+  color: #032f62 !important;
+}
+
+.traversing-code-row .code-block-pre .token.function {
+  color: #6f42c1 !important;
+}
+
+.traversing-code-row .code-block-pre .token.comment {
+  color: #6a737d !important;
+  font-style: italic;
+}
+
+.traversing-code-row .code-block-pre .token.number {
+  color: #005cc5 !important;
+}
+
+.traversing-code-row .code-block-pre .token.operator {
+  color: #d73a49 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .traversing-code-row .code-block-container {
+    max-width: 90%;
+    height: 350px;
+  }
+  
+  .traversing-code-row .code-block-pre {
+    font-size: 1rem;
+    padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .traversing-code-row .code-block-container {
+    max-width: 95%;
+    height: 300px;
+  }
+  
+  .traversing-code-row .code-block-pre {
+    font-size: 0.9rem;
+    padding: 1rem 1.25rem 1rem 1.25rem;
+    padding-right: 1.75rem;
+  }
+} 

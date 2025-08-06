@@ -12,6 +12,7 @@ const Timer = ({
   speed = SLIDER_CONFIG.DEFAULT_VALUE,
   showCaret,
   onCaretToggle,
+  selectedMode = 'lit',
   className = '',
 }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -60,6 +61,7 @@ const Timer = ({
           speed={speed}
           showCaret={showCaret}
           onCaretToggle={onCaretToggle}
+          selectedMode={selectedMode}
         />
       </div>
 
